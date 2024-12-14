@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Subtasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .task {
+            margin: 10px 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        .task span {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        .green {
+            color: green;
+        }
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <button id="runButton">Run</button>
+    <div id="tasksContainer"></div>
+
+    <script>
+        const runButton = document.getElementById('runButton');
+        const tasksContainer = document.getElementById('tasksContainer');
+
+        runButton.addEventListener('click', () => {
+            runButton.disabled = true; // Disable the button during execution
+            tasksContainer.innerHTML = ''; // Clear previous tasks
+
+            const totalTasks = 5;
+            for (let i = 1; i <= totalTasks; i++) {
+                const taskElement = document.createElement('div');
+                taskElement.className = 'task';
+                taskElement.textContent = `Subtask ${i}`;
+
+                const statusSpan = document.createElement('span');
+                taskElement.appendChild(statusSpan);
+                tasksContainer.appendChild(taskElement);
+
+                // Simulate task completion with a delay
+                setTimeout(() => {
+                    const isSuccess = Math.random() > 0.5; // Random success/failure
+                    statusSpan.textContent = isSuccess ? '✔️' : '❌';
+                    statusSpan.className = isSuccess ? 'green' : 'red';
+
+                    // Re-enable the button after all tasks are completed
+                    if (i === totalTasks) {
+                        runButton.disabled = false;
+                    }
+                }, i * 1000); // Delay increases with each task
+            }
+        });
+    </script>
+</body>
+</html>
